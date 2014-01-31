@@ -6,17 +6,6 @@ $site1 = "http://172.20.147.66/promofarephilippines/html/test_page1.html";
 $site2 = $site1;
 
 
-$cebupac = new ASPBooking();
-
-//Pass the required hidden input names that are needed to construct the post url
-//$tiger_air->set_arguments(array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET'));
-//$tiger_air->init($site1);
-
-//You can do it this way instead of the two lines above 
-$cebupac->init($site1, array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET')); 
-
-
-
 $form_fields = array(
     //hidden fields
     'pageToken'         => '',
@@ -45,6 +34,14 @@ $form_fields = array(
 );
 
 
+$cebupac = new ASPBooking();
+
+//Pass the required hidden input names that are needed to construct the post url
+//$cebupac->set_arguments(array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET'), $form_fields);
+//$cebupac->init($site1);
+
+//You can do it this way instead of the two lines above 
+$cebupac->init($site1, array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET')); 
 
 //Book now
 $cebupac->book($site2, $form_fields);

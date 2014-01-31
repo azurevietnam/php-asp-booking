@@ -6,7 +6,8 @@ class ASPBooking{
     private $html;  //html page result from curl
     private $ch; //curl instance
     
-    private $args = array();
+    private $params_get;
+    private $params_post;
     
     
     function __construct(){}
@@ -17,13 +18,12 @@ class ASPBooking{
     /**
     * get query: Initialize curl object here
     * Arguments:
-    * $url_get =
-     * Returns list of
+    * $url_get: //url address/page where we get the header parameters
     */
     public function init($url_get, $args = array()){            
         $this->url_get = $url_get;
         if($args)
-            $this->args = $args;
+            $this->params_get = $args;
 
         $this->ch = curl_init();
         $this->curl_setopts();
@@ -34,16 +34,30 @@ class ASPBooking{
         
         //STEP 1 - GET PARAMETERS
         if($this->html){
-            var_dump($this->get_params_value($this->args));
+            $this->params_get = $this->get_params_value($this->params_get);
         }
         
         //STEP 2 - POST DATA 
-        
+        var_dump($this->params_get);
         
     }
     
+    
+    /*
+     * Returns an html page 
+     */ 
     public function book($url_post, $params=array()){
+        $this->params_post = $params;
         
+        
+        var_dump($this->params_post);
+        
+        var_dump(array_merge($this->params_get, $this->params_post));
+        
+        
+        /*Close CURL*/
+        if($this->ch)
+            curl_close($this->ch);
     }
     
     
@@ -61,7 +75,7 @@ class ASPBooking{
     /**END CURL FUNCTIONS**/
 
     /**Setters**/        
-    public function set_arguments($args){ $this->args = $args;}
+    public function set_arguments($args){ $this->params_get = $args;}
     public function set_params(){}
     
     
@@ -91,7 +105,7 @@ class ASPBooking{
     
     /**
      * Accepts input tag
-     * Returns value of input attribute value  <input value="inputvalue"> 
+     * Returns value of input attribute 'value'  <input value="inputvalue"> 
      * */
     private function extract_values($pattern, $index=1){
         $regex_val = '/value="(.*?)"/i';
