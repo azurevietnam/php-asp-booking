@@ -8,7 +8,7 @@ include_once 'Booking.php';
 $objbooking = new ASPBooking();
 
 
-//Cebu Pacific Booking
+//Cebu Pacific
 $site1 = "www.cebupacificair.com";
 $site2 = "https://book.cebupacificair.com/Search.aspx?culture=en-us";
 
@@ -56,7 +56,7 @@ echo $cebupacific_page;
 
 
 //Tiger Air
-$site1 = "http://www.tigerair.com";
+$site1 = "http://booking.tigerair.com/Search.aspx";
 $site2 = "http://booking.tigerair.com/Search.aspx?culture=en-GB&gaculture=PHEN";
 
 $form_fields = array(
@@ -67,8 +67,8 @@ $form_fields = array(
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketDateRange2'=>'1%7C1',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketDay1'=>'19',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketDay2'=>'20',
-    'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth1'=>'2014-02',
-    'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth2'=>'2014-02',
+    'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth1'=>'2014-03',
+    'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth2'=>'2014-03',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListPassengerType_ADT'=>'1',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListPassengerType_CHD'=>'0',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListPassengerType_INFANT'=>'0',
@@ -82,20 +82,20 @@ $form_fields = array(
     'ControlGroupSearchView_AvailabilitySearchInputSearchViewdestinationStation2'=>'',
     'ControlGroupSearchView_AvailabilitySearchInputSearchVieworiginStation1'=>'BCD',
     'ControlGroupSearchView_AvailabilitySearchInputSearchVieworiginStation2'=>'',
-    'date_picker'=>'2014-02-19',
-    'date_picker'=>'2014-02-20',
+    'date_picker'=>'2014-03-19',
+    'date_picker'=>'2014-03-20',
     'hiddendAdultSelection'=>'1',
     'hiddendChildSelection'=>'0',
-    'pageToken'=>''
+    'pageToken'=>'',
+    '__EVENTARGUMENT'=>'',
+    '__EVENTTARGET'=>''
 
 );
-/*
-$objbooking->init($site1, array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET')); 
+$objbooking->init($site1, array('__EVENTTARGET')); 
 $objbooking->book($site2, $form_fields);
 
 $tigeair_page = $objbooking->get_html();
 
 echo $tigeair_page;
-*/
 
 ?>
