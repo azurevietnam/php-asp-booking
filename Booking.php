@@ -17,7 +17,8 @@ class ASPBooking{
     /**CURL FUNCTIONS**/
    
     /**
-    * get query: Initialize curl object here
+    * Initialize curl object here
+    * Issue a get call to fetch asp __VIEWSTATE, __EVENTARGUMENT, __EVENTTARGET, etc... Refer to headers for
     * Arguments:
     * $url_get: //url address/page where we get the header parameters
     */
@@ -64,8 +65,6 @@ class ASPBooking{
         
         $https = strpos($this->url_post, 'https://'); 
         
-        var_dump($https);
-        
         curl_setopt($this->ch, CURLOPT_POST, true);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $this->params_post);
 
@@ -75,7 +74,6 @@ class ASPBooking{
             curl_setopt($this->ch, CURLOPT_FORBID_REUSE, 0);
             curl_setopt($this->ch, CURLOPT_FRESH_CONNECT, 0);
             curl_setopt($this->ch, CURLOPT_AUTOREFERER, 1);
-            curl_setopt($this->ch, CURLOPT_USERAGENT, "valid user agent");
             
         }
         else{
@@ -86,6 +84,7 @@ class ASPBooking{
             curl_setopt($this->ch, CURLOPT_HEADER, 1);
         }
         
+        curl_setopt($this->ch, CURLOPT_USERAGENT, "valid user agent");
         curl_setopt($this->ch, CURLOPT_URL, $this->url_post);   
         curl_setopt($this->ch, CURLOPT_COOKIEJAR, $this->cookie);
         curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->cookie); //saved cookies
@@ -118,8 +117,6 @@ class ASPBooking{
     public function get_html(){ return $this->html; } 
     
     /*
-     * Issue a get call to fetch asp __VIEWSTATE, __EVENTARGUMENT, __EVENTTARGET, etc... Refer to headers for
-     * the required parameters for the page.
      * Parameter(s):
      * $input_name_attrs = array of input tag name values; <input name="__VIEWSTATE"> = array("__VIEWSTATE","")
      * Returns associative array. array("__VIEWSTATE"=>"adhxcvhetyahsagdhfsdg") 
