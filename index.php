@@ -1,5 +1,6 @@
 <?php
 include_once 'Booking.php';
+include_once 'airlines/CebuPacific.php';
 
 /*How to use classCURLASPBooking*/
 //$site1 = "http://172.20.147.66/promofarephilippines/html/test_page1.html";
@@ -48,11 +49,14 @@ $form_fields = array(
 //$cebupac->init($site1);
 
 //You can do it this way instead of the two lines above 
-$objbooking->init($site1, array('__EVENTARGUMENT')); 
-$objbooking->book($site2, $form_fields);
+//$objbooking->init($site1, array('__EVENTARGUMENT')); 
+//$objbooking->book($site2, $form_fields);
 
-$cebupacific_page = $objbooking->get_html();
-echo $cebupacific_page;
+//$cebupacific_page = $objbooking->get_html();
+//echo $cebupacific_page;
+
+$cebupacific_page = "./testcase/March192014.html";
+$fares = new CebuPacific($cebupacific_page);
 
 
 //Tiger Air
@@ -91,11 +95,11 @@ $form_fields = array(
     '__EVENTTARGET'=>''
 
 );
-$objbooking->init($site1, array('__EVENTTARGET')); 
-$objbooking->book($site2, $form_fields);
+//$objbooking->init($site1, array('__EVENTTARGET')); 
+//$objbooking->book($site2, $form_fields);
 
-$tigeair_page = $objbooking->get_html();
+//$tigeair_page = $objbooking->get_html();
 
-echo $tigeair_page;
+//echo $tigeair_page;
 
 ?>
