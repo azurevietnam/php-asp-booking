@@ -1,18 +1,21 @@
 <?php
 class CebuPacific
 {
-        
     private $html;
+    private $fares;
     private $node_depart;
     private $node_return;
+    
+    private $test = TRUE;
+
 
     function __construct($html)
     {
         $this->html = $html;
-        $this->fares();
+        echo "Cebu Pacific curl to local file?   {$this->test}<br/>";
     }
     
-    private function fares()
+    public function flights()
     {
         
         if($this->html)
@@ -23,19 +26,24 @@ class CebuPacific
            $doc->substituteEntities = TRUE;
            $doc->encoding = 'UTF-8';
            
-           //Suppress strict errors or you could just suppress errors directly
-           //@$doc->loadHTML($this->html);
+           if(!$this->test)
+           {
+               //LIVE - Suppress strict errors or you could just suppress errors directly
+               @$doc->loadHTML($this->html);
+           }
+           else
+           {
+               //TEST - Load local html page in testcase folder
+               $this->html = "../testcase/March192014.html";
+               @$doc->loadHTMLFile($this->html);
+           }
            
-           @$doc->loadHTMLFile($this->html); //test case
-            
-           echo $doc->nodeValue;
            $tables = $doc->getElementsByTagName('table'); 
            
            foreach($tables as $table){
                if(trim($table->getAttribute('id')) == 'availabilityTable')
                {
                    $classes = explode(' ',$table->getAttribute('class'));
-                   //var_dump($classes);
                    if(in_array('flights', $classes))
                    {
                        if(in_array('depart', $classes))
@@ -53,42 +61,55 @@ class CebuPacific
            }
            
            //departure fares
-           $this->depart_fares();
+           $this->fares['departure'] = $this->details($this->node_depart);
+           
            //return fares
-           $this->return_fares();
+           $this->fares['return'] = $this->details($this->node_return);
+           
+           return $this->fares;
        }   
                    
     } 
     
     
-    private function depart_fares()
+    private function details($node_list)
     {
-        $departure_fares = array();
-        if($this->node_depart)
+        $fares = array();
+        if($node_list)
         {
-            $tbody = $this->node_depart->getElementsByTagName('tbody')->item(0);
+            $tbody = $node_list->getElementsByTagName('tbody')->item(0);
             
+            $i = 0;
             foreach ($tbody->getElementsByTagName('tr') as $tr)
             {
-                
                 //origin
                 $td = $tr->getElementsByTagName('td')->item(0);
-                echo $this->get_inner_html($td);
-                
+                $fares[$i]['origin'] = $this->get_inner_html($td); 
                 
                 //destination
                 $td = $tr->getElementsByTagName('td')->item(1);
-                echo $this->get_inner_html($td);
-                
+                $fares[$i]['destination'] = $this->get_inner_html($td);
                 
                 //flight number
                 $td = $tr->getElementsByTagName('td')->item(2);
                 foreach($td->childNodes as $node) 
                 {
-                    if ($node->nodeType != XML_TEXT_NODE) {
-                        continue;
+                    if ($node->nodeType != XML_TEXT_NODE) 
+                    {
+                        if($node->tagName == 'span')
+                        {
+                            foreach( $node->childNodes as $node)
+                            {
+                                $class = explode(' ', $node->getAttribute('class'));
+                                if(in_array('flightInfoLink', $class))
+                                {
+                                    $fares[$i]['flight'] = $node->nodeValue;
+                                    break;
+                                }
+                            }
+                        }
+                        
                     }
-                    echo $node->tagName;
                     $nodeValue = $node;
                 }
                 
@@ -101,7 +122,15 @@ class CebuPacific
                     {
                         $class = explode(' ', $node->getAttribute('class'));
                         if(in_array('farePrices', $class)){
-                            echo '<br/>Regular: '.$this->get_inner_html($node);
+                            foreach($node->childNodes as $span)
+                            {
+                                $class = explode(' ', $span->getAttribute('class'));
+                                if(in_array('ADTprice', $class))
+                                {
+                                    $fares[$i]['fare_regular'] = $span->nodeValue;
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }
@@ -117,48 +146,43 @@ class CebuPacific
                     {
                         $class = explode(' ', $node->getAttribute('class'));
                         if(in_array('farePrices', $class)){
-                            echo '<br/>Promo: ' . $this->get_inner_html($node);
+                            foreach($node->childNodes as $span)
+                            {
+                                $class = explode(' ', $span->getAttribute('class'));
+                                if(in_array('ADTprice', $class))
+                                {
+                                    $fares[$i]['fare_promo'] = $span->nodeValue;
+                                    break;
+                                }
+                            }
                             break;
                         }
                     }
                     
                 }
-                
-            
-                print('<hr style="color: #eee;"/>');
+                $i++;
             }
             
         }
+        return $fares;
 
 
-        
-    }
-    
-    private function return_fares()
-    {
-        
-        
-        
     }
     
     
-    function get_inner_html( $node ) 
+    /*
+     * Returns $node value including tags
+     * */
+    function get_inner_html($node) 
     { 
         $innerHTML= ''; 
         $children = $node->childNodes; 
         foreach ($children as $child) 
         { 
-            $innerHTML .= $child->ownerDocument->saveXML( $child ); 
+            $innerHTML .= $child->ownerDocument->saveXML($child); 
         } 
         return $innerHTML;  
     }     
-    
-    
-    
-    
+
 }
-
-
-
-
 ?>

@@ -12,11 +12,7 @@ class ASPBooking
     
     private $cookie;
     
-    function __construct(){}
-    
-    
     /**CURL FUNCTIONS**/
-   
     /**
     * Initialize curl object here
     * Issue a get call to fetch asp __VIEWSTATE, __EVENTARGUMENT, __EVENTTARGET, etc... Refer to headers for
@@ -49,7 +45,7 @@ class ASPBooking
     /*
      * Returns an html page 
      */ 
-    public function book($url_post, $params=array())
+    public function search($url_post, $params=array())
     {
         //prepare post parameters
         $this->url_post = $url_post;

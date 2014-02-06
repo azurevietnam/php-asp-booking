@@ -6,7 +6,7 @@ include_once 'airlines/CebuPacific.php';
 //$site1 = "http://172.20.147.66/promofarephilippines/html/test_page1.html";
 
 
-$objbooking = new ASPBooking();
+$booking = new ASPBooking();
 
 
 //Cebu Pacific
@@ -31,7 +31,7 @@ $form_fields = array(
     //format: 2013-04
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketDay1'           => '11',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth1'         => '2014-3',
-    'date_picker'                                                                                   => '2013-07-20',
+    'date_picker'                                                                                   => '2014-07-20',
     //-return date
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketDay2'           => '19',
     'ControlGroupSearchView%24AvailabilitySearchInputSearchView%24DropDownListMarketMonth2'         => '2014-4',
@@ -45,18 +45,23 @@ $form_fields = array(
 
 
 //Pass the required hidden input names that are needed to construct the post url
-//$cebupac->set_arguments(array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET'), $form_fields);
-//$cebupac->init($site1);
+//$booking->set_arguments(array('__VIEWSTATE','__EVENTARGUMENT','__EVENTTARGET'), $form_fields);
+//$booking->init($site1);
 
 //You can do it this way instead of the two lines above 
-//$objbooking->init($site1, array('__EVENTARGUMENT')); 
-//$objbooking->book($site2, $form_fields);
+$booking->init($site1, array('__EVENTARGUMENT')); 
+$booking->search($site2, $form_fields);
 
-//$cebupacific_page = $objbooking->get_html();
-//echo $cebupacific_page;
+$html = $booking->get_html();
+//echo $html;
 
-$cebupacific_page = "./testcase/March192014.html";
-$fares = new CebuPacific($cebupacific_page);
+//$html = "./testcase/March192014.html";
+$cebupac = new CebuPacific($html);
+$flights = $cebupac->flights();
+
+print_r($flights);
+
+
 
 
 //Tiger Air
@@ -95,11 +100,11 @@ $form_fields = array(
     '__EVENTTARGET'=>''
 
 );
-//$objbooking->init($site1, array('__EVENTTARGET')); 
-//$objbooking->book($site2, $form_fields);
+//$booking->init($site1, array('__EVENTTARGET')); 
+//$booking->search($site2, $form_fields);
 
-//$tigeair_page = $objbooking->get_html();
+//$html = $booking->get_html();
 
-//echo $tigeair_page;
+//echo $html;
 
 ?>
