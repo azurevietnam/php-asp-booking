@@ -1,6 +1,7 @@
 <?php
 include_once 'Booking.php';
 include_once 'airlines/CebuPacific.php';
+include_once 'airlines/TigerAir.php';
 
 /*How to use classCURLASPBooking*/
 //$site1 = "http://172.20.147.66/promofarephilippines/html/test_page1.html";
@@ -49,17 +50,16 @@ $form_fields = array(
 //$booking->init($site1);
 
 //You can do it this way instead of the two lines above 
-$booking->init($site1, array('__EVENTARGUMENT')); 
-$booking->search($site2, $form_fields);
+//$booking->init($site1, array('__EVENTARGUMENT')); 
+//$booking->search($site2, $form_fields);
 
-$html = $booking->get_html();
+//$html = $booking->get_html();
 //echo $html;
 
-//$html = "./testcase/March192014.html";
-$cebupac = new CebuPacific($html);
-$flights = $cebupac->flights();
-
-print_r($flights);
+//$html = "./testcase/CebuPacific-March192014.html";
+//$cebupac = new CebuPacific($html);
+//$flights = $cebupac->flights();
+//print_r($flights);
 
 
 
@@ -102,9 +102,56 @@ $form_fields = array(
 );
 //$booking->init($site1, array('__EVENTTARGET')); 
 //$booking->search($site2, $form_fields);
+//$html = $booking->get_html();
+
+$html = "./testcase/TigerAir-March192014.html";
+$airline = new TigerAir($html);
+$flights = $airline->flights();
+print_r($flights);
+
+
+
+/*Philippine Airlines*/
+$form_fields = array(
+    'tripType'=>'RT',
+    'outboundOption.originLocationCode'=>'DGT',
+    'outboundOption.originLocationName'=>'',
+    'inboundOption.originLocationCode'=>'',
+    'inboundOption.originLocationName'=>'',
+    'outboundOption.destinationLocationName'=>'',
+    'inboundOption.destinationLocationCode'=>'PUS',
+    'inboundOption.destinationLocationName'=>'',
+    'outboundOption.destinationLocationCode'=>'MNL',
+    'outboundOption1'=>'03%2F19%2F2014',
+    'outboundOption.departureDate'=>'03%2F19%2F2014',
+    'outboundOption.departureMonth'=>'03',
+    'outboundOption.departureDay'=>'19',
+    'outboundOption.departureYear'=>'2014',
+    'inboundOption1'=>'03%2F20%2F2014',
+    'inboundOption.departureDate'=>'03%2F20%2F2014',
+    'inboundOption.departureMonth'=>'03',
+    'inboundOption.departureDay'=>'20',
+    'inboundOption.departureYear'=>'2014',
+    'guestTypes%5B0%5D.amount'=>'1',
+    'guestTypes%5B0%5D.type'=>'ADT',
+    'guestTypes%5B1%5D.amount'=>'0',
+    'guestTypes%5B1%5D.type'=>'CNN',
+    'guestTypes%5B2%5D.amount'=>'0',
+    'guestTypes%5B2%5D.type'=>'INS',
+    'guestTypes%5B3%5D.amount'=>'0',
+    'guestTypes%5B3%5D.type'=>'INF',
+    'cabinClass'=>'Economy',
+    'flexibleSearch'=>'true',
+    'coupon'=>''
+    );
+    
+//$site1 = "http://www1.philippineairlines.com";
+//$site2 = "https://onlinebooking.philippineairlines.com/flypal/AirLowFareSearchExternal.do";
+//$booking->init($site1); 
+//$booking->search($site2, $form_fields);
 
 //$html = $booking->get_html();
 
 //echo $html;
-
+    
 ?>

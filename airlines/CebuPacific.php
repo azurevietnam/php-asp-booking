@@ -6,7 +6,7 @@ class CebuPacific
     private $node_depart;
     private $node_return;
     
-    private $test = TRUE;
+    private $test = FALSE;
 
 
     function __construct($html)
@@ -34,7 +34,7 @@ class CebuPacific
            else
            {
                //TEST - Load local html page in testcase folder
-               $this->html = "../testcase/March192014.html";
+               $this->html = "./testcase/CebuPacific-March192014.html";
                @$doc->loadHTMLFile($this->html);
            }
            

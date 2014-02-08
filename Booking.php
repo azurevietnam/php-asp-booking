@@ -12,6 +12,11 @@ class ASPBooking
     
     private $cookie;
     
+    function __construct()
+    {
+        $this->cookie = 'cookie.txt';
+    }
+    
     /**CURL FUNCTIONS**/
     /**
     * Initialize curl object here
@@ -49,7 +54,6 @@ class ASPBooking
     {
         //prepare post parameters
         $this->url_post = $url_post;
-        $this->cookie = 'cookie.txt';
         $this->params_post = $this->request_params(array_merge($this->params_get, $params));
         
         echo "<p>Submit booking: {$this->url_post}</p>";        
@@ -78,7 +82,7 @@ class ASPBooking
         else
         {
             curl_setopt($this->ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
-            curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, FALSE);
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($this->ch, CURLOPT_HEADER, 1);
         }
@@ -114,6 +118,7 @@ class ASPBooking
     /***Getters**/
     public function get_html(){ return $this->html; } 
     
+    
     /*
      * Parameter(s):
      * $input_name_attrs = array of input tag name values; <input name="__VIEWSTATE"> = array("__VIEWSTATE","")
@@ -147,7 +152,7 @@ class ASPBooking
     }
 
     
-    private function request_params($form_fields = array())
+    public function request_params($form_fields = array())
     {
         $post_data = array();
         foreach ( $form_fields as $key => $value)
